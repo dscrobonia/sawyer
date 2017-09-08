@@ -1,0 +1,32 @@
+Code for reference: stats.py
+
+Focussed on Pre-processing log data to perform k-means analysis.
+1. Wrote python scripts for:
+  a. Converting JSON data to python dictionary format and retrieving values corresponding to:
+  i. HTTP verb ii. Response code iii. Response Size iv. Client IP v. Time-stamp, etc.
+  b. For extracting the most frequently observed and top 3  Response status codes, time of the hour when traffic
+     is highest, http verb
+  c. Finding average response size
+  d. Finding these details for a particular user, and then reducing the data to one row entry per user for analysis,
+     in the form of a numpy array with each entry as tuple of client ip and value calculated in b. or c.
+  e. Used vstack in numpy to append every user's tuple to the array
+  
+2. To perform k-means clustering, data needs to be in numerical format. As far as client-ip address goes, we can map an 
+   integer with every new ip encountered in the data and use this or one-hot encode this number and use. Storing it
+   as a vector of 4 floats makes the numpy array in an unacceptable format to be able to perform k-means. 
+   Sample entry in the array say for client ip 123.45.67.78 with avg response 40 would be:
+   [[123,45,67,78],40]: won't be accepted with scikit learn kmeans.
+   If we map the address to an integer, say 1, the next IP address would be mapped to 2, next to 3 and so on.
+   With this, the above tuple would be:
+   [1,40]. If it is one hot encoded, and there are many unique ip address, then we'll require those many bits for 
+   representation which would be a costly operation and would require an extra parsing through the log file.
+   If say there are 10 IP addresses, then this would become:
+   [0000000001, 40].
+   Does encoding affect the distance metric while doing clustering?
+   With integer encoding, two client ips would be near (by k-means distance) if they appear consecutively or close to each
+   other in the log file even if they have totally different sub-nets. Also, if two ip addresses are closer sub-net wise and 
+   appear far away in the log file, the distance might be huge due to the difference in the number that gets assigned to them.
+   How should I go about encoding IP?
+   In the meanwhile, I'll try with simple integer encoding.
+   
+   

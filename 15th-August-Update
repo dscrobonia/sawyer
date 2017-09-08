@@ -1,0 +1,39 @@
+1. Read about Hierarchical and DBSCAN clustering from the following sources:
+a. http://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html
+b. http://scikit-learn.org/stable/modules/clustering.html#hierarchical-clustering
+c. http://scikit-learn.org/stable/modules/clustering.html#spectral-clustering
+d. https://joernhees.de/blog/2015/08/26/scipy-hierarchical-clustering-and-dendrogram-tutorial/
+e. http://scikit-learn.org/stable/auto_examples/cluster/plot_dbscan.html
+
+
+2. Tried hierarchical clustering with dendogram plotting, link here:
+https://github.com/rutujasurve94/OWASP_AppSensor/blob/master/dendogram.py
+
+
+3. Problems to tackle:
+a. All clustering algorithms in Scikit Learn and SciPy work on continuous numeric data. We are trying to encode
+categorical features like http verb, response code and client ip address with either one-hot encoding or custom encoders.
+This renders the data as discrete and concept of distance metric in such a case does not exist.
+We have limited distance options with us:
+1. Euclidean
+2. Manhattan
+3. Norm
+When we say 'GET' is different from 'POST', we simply mean that these are two different categories. It doesn't imply
+that 'GET'>'POST' or 'POST'>'GET', a comparison which the distance metric tries to impose the moment we try
+encoding it, for eg, GET as 01 and POST as 10.
+Same applies to encoding of IP addresses.
+If we try to match a pattern with an IP address, say 192.168.100.001, we would match the first quad with 192 and so on.
+Or individually match each of 1, 9 and 2 with digits of the first quad and so on.
+This treats 192.168.100.001 as a base IP address. We could have many IP addresses in a single log file. How would we
+proceed in such a case?
+Also, there are 999 3-digit numbers possible. Having a binary encoder for each of the quads would explode the feature size.
+If we are looking at the entire IP address as just one feature, this method would make the IP address itself into many
+number of features,to avoid discrete data, which we don't want.
+Sticking to continuous data that's numeric might make more sense.
+
+
+Just as K-Modes offers a solution for categorical k-means clustering, there need to be equivalents for DBSCAN and Hierarchical 
+(Agglomerative) as well.
+
+Once this is achieved, it should be easy to apply the algorithms.
+

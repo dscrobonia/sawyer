@@ -1,0 +1,24 @@
+I. Reference code: 
+https://github.com/rutujasurve94/OWASP_AppSensor/blob/master/Clustering_analysis_Aug_20.py
+II. Results:
+https://github.com/rutujasurve94/OWASP_AppSensor/blob/master/Results_Clustering
+III. Log-Data source:
+jtmelton-log-july (First 21,000 records)
+
+IV. Clustered using K-means clustering and used K-prototypes for categorical data.
+Parameters used:
+a. Represented an IP address, say: 123.456.789 as 123456.789 (Floating point number).
+b. Treated Status code as categorical: Eg. 200, 401, 300, etc. (Put cluster size as 4 for now)
+c. HTTP verb: GET, POST, HEAD, PATCH, etc. (Categorical again). (most commonly used http verb) (Cluster size as 4)
+d. Most commonly used URL 
+e. Average response size (10 clusters)
+f. Most frequently used hour of the day (24 clusters)
+
+Size of each cluster and the characteristics of the cluster could be looked into for determining the possibility of an attack.
+For eg. If a particular cluster shows negative behaviour (for eg. failed access) and has a very big size.
+Another example could be when only a couple of clusters have a very small(or huge) size and the rest are very huge(or small).
+
+
+Next steps:
+Trying to implement DBSCAN and hierarchical clustering on numeric data:
+For eg. IP and size of response.

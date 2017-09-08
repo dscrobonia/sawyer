@@ -1,0 +1,43 @@
+Code for reference: https://github.com/rutujasurve94/OWASP_AppSensor/blob/master/K-Means_ipaddr_user.py
+Output of clustering: https://github.com/rutujasurve94/OWASP_AppSensor/blob/master/output_KMeans_ip_useridpng.png
+
+Tried to perform K-means clustering on different Client IP addresses and User-IDs.
+Assuming one-hot encoded format for IP addresses, if there are 3 different IP addresses in the log, they'll be encoded as 
+001, 010 and 100. User-IDs are generally strings. I've assumed it to be numeric (1 - 9) for now.
+Sample data on which k-means was performed is:
+[[100, 1],  [010, 4], [001, 7], [010, 5], [001, 8], [100, 2], [010,6],[100,3], [001,9]]
+
+When we try to cluster this with number of clusters as 3, ideally, all user-ids belonging to one client IP address should be 
+clustered together. This expected behaviour is observed on performing k-means.
+
+First, this data 'X' is tranformed into a scalar vector:
+[[ 1.41137286 -1.54919334]
+ [-0.62809787 -0.38729833]
+ [-0.78327499  0.77459667]
+ [-0.62809787  0.        ]
+ [-0.78327499  1.161895  ]
+ [ 1.41137286 -1.161895  ]
+ [-0.62809787  0.38729833]
+ [ 1.41137286 -0.77459667]
+ [-0.78327499  1.54919334]]
+ 
+ The results of clustering are:
+ Printing first cluster
+[[ 1.41137286 -1.54919334]
+ [ 1.41137286 -1.161895  ]
+ [ 1.41137286 -0.77459667]]
+Printing second cluster
+[[-0.78327499  0.77459667]
+ [-0.78327499  1.161895  ]
+ [-0.78327499  1.54919334]]
+Printing third cluster
+[[-0.62809787 -0.38729833]
+ [-0.62809787  0.        ]
+ [-0.62809787  0.38729833]]
+
+The png file of the output makes it easier to visualize this (link above). 
+As expected, [[001,9], [001,7],[001,8]], [[010,4],[010,5],[010,6]] and [[001,7],[001,8],[001,9]] get clustered together.
+(100% accuracy for the above example)
+
+We could have a statistic threhold 'T' and say that if the number of user-ids for a client-ip exceeds 'T' on a day, 
+i.e. if cardinality of a cluster for client-ip 'x' exceeds 'T', it indicates anomalous behaviour.
