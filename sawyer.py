@@ -1,6 +1,6 @@
 import argparse
 import logreader
-from analyzers import response_size_dbscan, response_size_dendogramhac, response_size_lof, hourly_peak
+from analyzers import response_size_dbscan, response_size_dendogramhac, response_size_lof, hourly_peak, hourly_requests_by_host, hourly_requests_to_server
 
 parser = argparse.ArgumentParser(description='Get more from your logs.')
 
@@ -14,6 +14,9 @@ parser.add_argument('--dbscan', action='store_true')
 parser.add_argument('--hac', action='store_true')
 parser.add_argument('--local-outlier', action='store_true')
 parser.add_argument('--hourly-peak', action='store_true')
+parser.add_argument('--hourly-requests-by-host', action='store_true')
+parser.add_argument('--hourly-requests-to-server', action='store_true')
+
 
 '''
 parser.add_argument('--elliptic', action='store_true')
@@ -27,8 +30,6 @@ parser.add_argument('--response-status-kmeans', action='store_true')
 parser.add_argument('--response-code', action='store_true')
 parser.add_argument('--verb-kproto', action='store_true')
 parser.add_argument('--url-kproto', action='store_true')
-parser.add_argument('--hourly-req-host', action='store_true')
-parser.add_argument('--hourly-requests', action='store_true')
 parser.add_argument('--num-param-ip', action='store_true')
 parser.add_argument('--ip-url-param', action='store_true')
 parser.add_argument('--url-one-time-hit', action='store_true')
@@ -58,6 +59,12 @@ elif args.local_outlier:
 
 elif args.hourly_peak:
 	hourly_peak.analyze(logs)
+
+elif args.hourly_requests_by_host:
+	hourly_requests_by_host.analyze(logs)
+
+elif args.hourly_requests_to_server:
+	hourly_requests_to_server.analyze(logs)
 
 else:
 	print 'run all'
@@ -95,12 +102,6 @@ elif args.verb_kproto:
 
 elif args.url_kproto:
 	print 'run url-kproto'
-
-elif args.hourly_req_host:
-	print 'run hourly-req-host'
-
-elif args.hourly_requests:
-	print 'run hourly-requests'
 
 elif args.num_param_ip:
 	print 'run num-param-ip'
