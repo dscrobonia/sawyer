@@ -1,6 +1,6 @@
 import argparse
 import logreader
-from analyzers import response_size_dbscan, response_size_dendogramhac, response_size_lof, hourly_peak, hourly_requests_by_host, hourly_requests_to_server
+from analyzers import response_size_dbscan, response_size_dendogramhac, response_size_lof, hourly_peak, hourly_requests_by_host, hourly_requests_to_server, param_count, param_extra, param_length
 
 parser = argparse.ArgumentParser(description='Get more from your logs.')
 
@@ -16,8 +16,9 @@ parser.add_argument('--local-outlier', action='store_true')
 parser.add_argument('--hourly-peak', action='store_true')
 parser.add_argument('--hourly-requests-by-host', action='store_true')
 parser.add_argument('--hourly-requests-to-server', action='store_true')
-
-
+parser.add_argument('--param-count', action='store_true')
+parser.add_argument('--param-extra', action='store_true')
+parser.add_argument('--param-length', action='store_true')
 '''
 parser.add_argument('--elliptic', action='store_true')
 parser.add_argument('--knn', action='store_true')
@@ -65,6 +66,15 @@ elif args.hourly_requests_by_host:
 
 elif args.hourly_requests_to_server:
 	hourly_requests_to_server.analyze(logs)
+
+elif args.param_count:
+	param_count.analyze(logs)
+
+elif args.param_extra:
+	param_extra.analyze(logs)
+
+elif args.param_length:
+	param_length.analyze(logs)
 
 else:
 	print 'run all'
