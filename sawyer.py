@@ -1,6 +1,6 @@
 import argparse
 import logreader
-from analyzers import response_size_dbscan, response_size_dendogramhac, response_size_lof
+from analyzers import response_size_dbscan, response_size_dendogramhac, response_size_lof, hourly_peak
 
 parser = argparse.ArgumentParser(description='Get more from your logs.')
 
@@ -13,26 +13,27 @@ parser.add_argument('-a', '--all', action='store_true', help='run all analyzers'
 parser.add_argument('--dbscan', action='store_true')
 parser.add_argument('--hac', action='store_true')
 parser.add_argument('--local-outlier', action='store_true')
+parser.add_argument('--hourly-peak', action='store_true')
+
 '''
 parser.add_argument('--elliptic', action='store_true')
-parser.add_argument('--knn', metavar='', action='store_true')
-parser.add_argument('--meanshift', metavar='', action='store_true')
-parser.add_argument('--centroid-median-hac', metavar='', action='store_true')
-parser.add_argument('--single-complete-hac', metavar='', action='store_true')
-parser.add_argument('--ward-avg-hac', metavar='', action='store_true')
-parser.add_argument('--response-size-kmeans', metavar='', action='store_true')
-parser.add_argument('--response-status-kmeans', metavar='', action='store_true')
-parser.add_argument('--response-code', metavar='', action='store_true')
-parser.add_argument('--peak-hour', metavar='', action='store_true')
-parser.add_argument('--verb-kproto', metavar='', action='store_true')
-parser.add_argument('--url-kproto', metavar='', action='store_true')
-parser.add_argument('--hourly-req-host', metavar='', action='store_true')
-parser.add_argument('--hourly-requests', metavar='', action='store_true')
-parser.add_argument('--num-param-ip', metavar='', action='store_true')
-parser.add_argument('--ip-url-param', metavar='', action='store_true')
-parser.add_argument('--url-one-time-hit', metavar='', action='store_true')
-parser.add_argument('--hosts-unique-url-hits', metavar='', action='store_true')
-parser.add_argument('--missing-extra-params', metavar='', action='store_true')
+parser.add_argument('--knn', action='store_true')
+parser.add_argument('--meanshift', action='store_true')
+parser.add_argument('--centroid-median-hac', action='store_true')
+parser.add_argument('--single-complete-hac', action='store_true')
+parser.add_argument('--ward-avg-hac', action='store_true')
+parser.add_argument('--response-size-kmeans', action='store_true')
+parser.add_argument('--response-status-kmeans', action='store_true')
+parser.add_argument('--response-code', action='store_true')
+parser.add_argument('--verb-kproto', action='store_true')
+parser.add_argument('--url-kproto', action='store_true')
+parser.add_argument('--hourly-req-host', action='store_true')
+parser.add_argument('--hourly-requests', action='store_true')
+parser.add_argument('--num-param-ip', action='store_true')
+parser.add_argument('--ip-url-param', action='store_true')
+parser.add_argument('--url-one-time-hit', action='store_true')
+parser.add_argument('--hosts-unique-url-hits', action='store_true')
+parser.add_argument('--missing-extra-params', action='store_true')
 '''
 
 args = parser.parse_args()
@@ -54,6 +55,9 @@ elif args.hac:
 
 elif args.local_outlier:
 	response_size_lof.analyze(logs)
+
+elif args.hourly_peak:
+	hourly_peak.analyze(logs)
 
 else:
 	print 'run all'
@@ -85,9 +89,6 @@ elif args.response_status_kmeans:
 
 elif args.response_code:
 	print 'run response-code'
-
-elif args.peak_hour:
-	print 'run peak-hour'
 
 elif args.verb_kproto:
 	print 'run verb-kproto'
