@@ -20,6 +20,7 @@ local.properties
 *.iws
 *.idea
 .idea/**
+*.pyc
 
 # External tool builders
 .externalToolBuilders/
