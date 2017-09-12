@@ -1,74 +1,66 @@
-import sys
 import json
-import re
-import urlparse
 import logging
 from logging.handlers import RotatingFileHandler
 
-import numpy as np
 import matplotlib.pyplot as plt
-
-from sklearn.cluster import MiniBatchKMeans, KMeans, DBSCAN
-from sklearn.metrics.pairwise import pairwise_distances_argmin
-from sklearn.preprocessing import StandardScaler
+import numpy as np
 from sklearn import metrics
+from sklearn.cluster import DBSCAN
 from sklearn.datasets.samples_generator import make_blobs
+from sklearn.preprocessing import StandardScaler
 
 
 def analyze(data):
-
     logger_info = logging.getLogger('info_logger')
     logger_info.setLevel(logging.INFO)
-    handler_info = RotatingFileHandler('INFO.log', mode = 'w',   backupCount=0)
+    handler_info = RotatingFileHandler('INFO.log', mode='w', backupCount=0)
     logger_info.addHandler(handler_info)
 
     logger_debug = logging.getLogger('debug_logger')
     logger_debug.setLevel(logging.INFO)
-    handler_debug = RotatingFileHandler('DEBUG.log', mode = 'w',  backupCount=0)
+    handler_debug = RotatingFileHandler('DEBUG.log', mode='w', backupCount=0)
     logger_debug.addHandler(handler_debug)
 
     logger_attack = logging.getLogger('results_logger')
     logger_attack.setLevel(logging.INFO)
-    handler_attack = RotatingFileHandler('ATTACK.log', mode = 'w',  backupCount=0)
+    handler_attack = RotatingFileHandler('ATTACK.log', mode='w', backupCount=0)
     logger_attack.addHandler(handler_attack)
 
-    #Convert this to python data for us to be able to run ML algorithms
+    # Convert this to python data for us to be able to run ML algorithms
     json_to_python = json.loads(data)
 
-    #Data pre-processing here:
-    per_size = dict() #IP-Response size
+    # Data pre-processing here:
+    per_size = dict()  # IP-Response size
     hostlist = dict()
 
     for i in json_to_python:
 
-        y = json_to_python[i] 
+        y = json_to_python[i]
         hostlist[y['HOST']] = 1
 
         if y['HOST'] in per_size:
-            
+
             per_size[y['HOST']].append(int(y['SIZE']))
 
         else:
-            
-            per_size[y['HOST']] = [int(y['SIZE'])]
 
+            per_size[y['HOST']] = [int(y['SIZE'])]
 
     logger_debug.info("*** Printing Input to analysis - 4 (1): K-means on IP and average response size ****")
 
-
     #####*****SIZE******####
     #### Analysis #4 (1): IP address - Size of response received feature
-    X = np.array([[0.00,0.00]]) 
+    X = np.array([[0.00, 0.00]])
     for x in hostlist:
-    
+
         avg_size = mean(per_size[x])
-        logger_debug.info( x + ": " + str(avg_size))
+        logger_debug.info(x + ": " + str(avg_size))
         y = x.split(".")
         ip = ""
         for z in range(4):
             l = len(y[z])
             l = 3 - l
-            if(l>0):
+            if (l > 0):
                 zero = ""
                 for t in range(3 - len(y[z])):
                     zero = zero + "0"
@@ -76,16 +68,14 @@ def analyze(data):
 
             ip = ip + y[z]
 
+        # logger_debug.info( str(float(float(ip)/1000)) + ": " + str(avg_size))
+        le = [float(float(ip) / 1000), avg_size]
 
-        #logger_debug.info( str(float(float(ip)/1000)) + ": " + str(avg_size))
-        le = [float(float(ip)/1000),avg_size]
+        X = np.vstack([X, le])
 
-        X = np.vstack([X,le])
-
-
-    logger_attack.info( "********    Printing Analysis #4: IP-Address and Response Size received: DBSCAN  ********")
+    logger_attack.info("********    Printing Analysis #4: IP-Address and Response Size received: DBSCAN  ********")
     logger_attack.info("Check the image test-dbscan.png for more info!")
-    #print kmeans.labels_
+    # print kmeans.labels_
     X1 = X
 
     # #############################################################################
@@ -111,11 +101,11 @@ def analyze(data):
     logger_info.info("Completeness: %0.3f" % metrics.completeness_score(labels_true, labels))
     logger_info.info("V-measure: %0.3f" % metrics.v_measure_score(labels_true, labels))
     logger_info.info("Adjusted Rand Index: %0.3f"
-          % metrics.adjusted_rand_score(labels_true, labels))
+                     % metrics.adjusted_rand_score(labels_true, labels))
     logger_info.info("Adjusted Mutual Information: %0.3f"
-          % metrics.adjusted_mutual_info_score(labels_true, labels))
+                     % metrics.adjusted_mutual_info_score(labels_true, labels))
     logger_info.info("Silhouette Coefficient: %0.3f"
-          % metrics.silhouette_score(X, labels))
+                     % metrics.silhouette_score(X, labels))
 
     # #############################################################################
     # Plot result
@@ -142,6 +132,7 @@ def analyze(data):
     plt.title('Estimated number of clusters: %d' % n_clusters_)
     ##plt.show()
     plt.savefig('test-dbscan.png')
+
 
 def mean(numbers):
     return float(sum(numbers)) / max(len(numbers), 1)
