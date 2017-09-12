@@ -1,7 +1,7 @@
 import argparse
 import sys
 
-# important to load analyzers
+# important to load analyzers - do NOT remove below line
 import analyzers
 import logreader
 
