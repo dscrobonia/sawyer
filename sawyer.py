@@ -11,10 +11,6 @@ import logreader
 
 
 def main():
-    # configure logging
-    logging.basicConfig(
-        stream=sys.stdout, level=os.environ.get("LOGLEVEL", "INFO"))
-
     # list all available analyzers by name
     available_analyzers = [
         'hourly_peak', 'hourly_requests_by_host', 'hourly_requests_to_server',
@@ -30,21 +26,25 @@ def main():
     parser = argparse.ArgumentParser(description='Get more from your logs.')
 
     parser.add_argument('logfile', help='the web application log to parse')
-    parser.add_argument(
-        '-c', '--config', metavar='', help='a configuration file')
-    parser.add_argument(
-        '-d', '--debug', metavar='', help='output debug information')
-    parser.add_argument(
-        '-v', '--verbose', metavar='', help='output additional information')
-
-    parser.add_argument(
-        '-a', '--all', action='store_true', help='run all analyzers')
+    parser.add_argument('-c', '--config', nargs=1, metavar='', help='a configuration file')
+    parser.add_argument('-d', '--debug', action='store_true', help='output debug information')
+    parser.add_argument('-v', '--verbose', action='store_true', help='output additional information')
+    parser.add_argument('-a', '--all', action='store_true', help='run all analyzers')
 
     # add a cli switch for each analyzer
     for analyzer in available_analyzers:
         parser.add_argument('--' + analyzer, action='store_true')
 
     args = parser.parse_args()
+
+    # default to info, override to debug if specified
+    loglevel = "INFO"
+    if args.verbose:
+        loglevel = "DEBUG"
+
+    # configure logging
+    logging.basicConfig(
+        stream=sys.stdout, level=os.environ.get("LOGLEVEL", loglevel))
 
     # read log file
     accesslog = logreader.toJson(args.logfile)
