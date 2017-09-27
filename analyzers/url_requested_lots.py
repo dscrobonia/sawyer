@@ -1,27 +1,13 @@
 import json
 import logging
 import urlparse
-from logging.handlers import RotatingFileHandler
+
+log = logging.getLogger(__name__)
 
 
 def analyze(data):
     # Convert this to python data for us to be able to run ML algorithms
     json_to_python = json.loads(data)
-
-    logger_info = logging.getLogger('info_logger')
-    logger_info.setLevel(logging.INFO)
-    handler_info = RotatingFileHandler('INFO.log', mode='w', backupCount=0)
-    logger_info.addHandler(handler_info)
-
-    logger_debug = logging.getLogger('debug_logger')
-    logger_debug.setLevel(logging.INFO)
-    handler_debug = RotatingFileHandler('DEBUG.log', mode='w', backupCount=0)
-    logger_debug.addHandler(handler_debug)
-
-    logger_attack = logging.getLogger('results_logger')
-    logger_attack.setLevel(logging.INFO)
-    handler_attack = RotatingFileHandler('ATTACK.log', mode='w', backupCount=0)
-    logger_attack.addHandler(handler_attack)
 
     per_host_req_url = dict()
     hostlist = dict()
@@ -42,7 +28,7 @@ def analyze(data):
         r = url.split('?')
         r[0]  ####this is the url before query parameters
 
-        logger_debug.info(y['HOST'] + ": " + r[0])
+        log.debug(y['HOST'] + ": " + r[0])
 
         if r[0] in per_host_req_url:
             per_host_req_url[r[0]].append(y['HOST'])
@@ -50,7 +36,7 @@ def analyze(data):
             per_host_req_url[r[0]] = [y['HOST']]
 
     ###Analysis #12: List of number of unique urls hit by client ips
-    logger_attack.info(
+    log.info(
         "##******** Analysis #12:#####  Printing number of unique urls hit by client ips:   ###############")
 
     host_unique_url_count = dict()
@@ -63,13 +49,13 @@ def analyze(data):
                 else:
                     host_unique_url_count[y] = 1
 
-                logger_info.info(x + " is hit only by user: " + y)
+                log.info(x + " is hit only by user: " + y)
 
-    logger_info.info(
+    log.info(
         "##******** Analysis #12:#####  Printing number of unique urls hit by client ips:   ###############")
 
     for x in host_unique_url_count:
-        logger_info.info(x + ":    " + str(host_unique_url_count[x]))
+        log.info(x + ":    " + str(host_unique_url_count[x]))
         if host_unique_url_count[x] > 30:
-            logger_attack.info("The host " + x + " has hit many unique urls!! " + str(
+            log.info("The host " + x + " has hit many unique urls!! " + str(
                 host_unique_url_count[x]) + " such hits!! That's huge!")

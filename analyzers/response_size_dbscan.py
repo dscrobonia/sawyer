@@ -1,6 +1,5 @@
 import json
 import logging
-from logging.handlers import RotatingFileHandler
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -9,23 +8,10 @@ from sklearn.cluster import DBSCAN
 from sklearn.datasets.samples_generator import make_blobs
 from sklearn.preprocessing import StandardScaler
 
+log = logging.getLogger(__name__)
+
 
 def analyze(data):
-    logger_info = logging.getLogger('info_logger')
-    logger_info.setLevel(logging.INFO)
-    handler_info = RotatingFileHandler('INFO.log', mode='w', backupCount=0)
-    logger_info.addHandler(handler_info)
-
-    logger_debug = logging.getLogger('debug_logger')
-    logger_debug.setLevel(logging.INFO)
-    handler_debug = RotatingFileHandler('DEBUG.log', mode='w', backupCount=0)
-    logger_debug.addHandler(handler_debug)
-
-    logger_attack = logging.getLogger('results_logger')
-    logger_attack.setLevel(logging.INFO)
-    handler_attack = RotatingFileHandler('ATTACK.log', mode='w', backupCount=0)
-    logger_attack.addHandler(handler_attack)
-
     # Convert this to python data for us to be able to run ML algorithms
     json_to_python = json.loads(data)
 
@@ -46,7 +32,7 @@ def analyze(data):
 
             per_size[y['HOST']] = [int(y['SIZE'])]
 
-    logger_debug.info("*** Printing Input to analysis - 4 (1): K-means on IP and average response size ****")
+    log.debug("*** Printing Input to analysis - 4 (1): K-means on IP and average response size ****")
 
     #####*****SIZE******####
     #### Analysis #4 (1): IP address - Size of response received feature
@@ -54,7 +40,7 @@ def analyze(data):
     for x in hostlist:
 
         avg_size = mean(per_size[x])
-        logger_debug.info(x + ": " + str(avg_size))
+        log.debug(x + ": " + str(avg_size))
         y = x.split(".")
         ip = ""
         for z in range(4):
@@ -68,13 +54,13 @@ def analyze(data):
 
             ip = ip + y[z]
 
-        # logger_debug.info( str(float(float(ip)/1000)) + ": " + str(avg_size))
+        # log.debug( str(float(float(ip)/1000)) + ": " + str(avg_size))
         le = [float(float(ip) / 1000), avg_size]
 
         X = np.vstack([X, le])
 
-    logger_attack.info("********    Printing Analysis #4: IP-Address and Response Size received: DBSCAN  ********")
-    logger_attack.info("Check the image test-dbscan.png for more info!")
+    log.info("********    Printing Analysis #4: IP-Address and Response Size received: DBSCAN  ********")
+    log.info("Check the image test-dbscan.png for more info!")
     # print kmeans.labels_
     X1 = X
 
@@ -96,16 +82,16 @@ def analyze(data):
     # Number of clusters in labels, ignoring noise if present.
     n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
 
-    logger_info.info('Estimated number of clusters: %d' % n_clusters_)
-    logger_info.info("Homogeneity: %0.3f" % metrics.homogeneity_score(labels_true, labels))
-    logger_info.info("Completeness: %0.3f" % metrics.completeness_score(labels_true, labels))
-    logger_info.info("V-measure: %0.3f" % metrics.v_measure_score(labels_true, labels))
-    logger_info.info("Adjusted Rand Index: %0.3f"
-                     % metrics.adjusted_rand_score(labels_true, labels))
-    logger_info.info("Adjusted Mutual Information: %0.3f"
-                     % metrics.adjusted_mutual_info_score(labels_true, labels))
-    logger_info.info("Silhouette Coefficient: %0.3f"
-                     % metrics.silhouette_score(X, labels))
+    log.info('Estimated number of clusters: %d' % n_clusters_)
+    log.info("Homogeneity: %0.3f" % metrics.homogeneity_score(labels_true, labels))
+    log.info("Completeness: %0.3f" % metrics.completeness_score(labels_true, labels))
+    log.info("V-measure: %0.3f" % metrics.v_measure_score(labels_true, labels))
+    log.info("Adjusted Rand Index: %0.3f"
+             % metrics.adjusted_rand_score(labels_true, labels))
+    log.info("Adjusted Mutual Information: %0.3f"
+             % metrics.adjusted_mutual_info_score(labels_true, labels))
+    log.info("Silhouette Coefficient: %0.3f"
+             % metrics.silhouette_score(X, labels))
 
     # #############################################################################
     # Plot result

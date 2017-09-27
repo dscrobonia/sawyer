@@ -1,27 +1,13 @@
 import json
 import logging
 import re
-from logging.handlers import RotatingFileHandler
+
+log = logging.getLogger(__name__)
 
 
 def analyze(data):
     # Convert this to python data for us to be able to run ML algorithms
     json_to_python = json.loads(data)
-
-    logger_info = logging.getLogger('info_logger')
-    logger_info.setLevel(logging.INFO)
-    handler_info = RotatingFileHandler('INFO.log', mode='w', backupCount=0)
-    logger_info.addHandler(handler_info)
-
-    logger_debug = logging.getLogger('debug_logger')
-    logger_debug.setLevel(logging.INFO)
-    handler_debug = RotatingFileHandler('DEBUG.log', mode='w', backupCount=0)
-    logger_debug.addHandler(handler_debug)
-
-    logger_attack = logging.getLogger('results_logger')
-    logger_attack.setLevel(logging.INFO)
-    handler_attack = RotatingFileHandler('ATTACK.log', mode='w', backupCount=0)
-    logger_attack.addHandler(handler_attack)
 
     net_req_hr = dict()
 
@@ -65,17 +51,17 @@ def analyze(data):
 
     ###Analysis 8: Per-hour requests for a particular hour and day: key of type: hr+date
 
-    logger_attack.info(
+    log.info(
         "Analysis #8: \n####****** Printing net requests per hour stats at the Server with Key: Hour/DATE Value: Number of requests ******###########")
-    logger_attack.info(
+    log.info(
         "** Note that this shows data if number of requests exceed 500. For detailed info, check INFO.log")
     for x in net_req_hr_key:
         if net_req_hr[x] > 500:
-            logger_attack.info(x + " received :" + str(net_req_hr[x]) + " requests!!")
+            log.info(x + " received :" + str(net_req_hr[x]) + " requests!!")
             if net_req_hr[x] > 750:
-                logger_attack.info("ALERT! Abnormal behaviour!")
+                log.info("ALERT! Abnormal behaviour!")
         else:
-            logger_info.info(x + " received :" + str(net_req_hr[x]) + " requests!!")
+            log.info(x + " received :" + str(net_req_hr[x]) + " requests!!")
 
 
 def countnonoverlappingrematches(pattern, thestring):

@@ -1,31 +1,17 @@
 import json
 import logging
-from logging.handlers import RotatingFileHandler
 
 import numpy as np
 from kmodes import kprototypes
+
+log = logging.getLogger(__name__)
 
 
 def analyze(data):
     # Convert this to python data for us to be able to run ML algorithms
     json_to_python = json.loads(data)
 
-    logger_info = logging.getLogger('info_logger')
-    logger_info.setLevel(logging.INFO)
-    handler_info = RotatingFileHandler('INFO.log', mode='w', backupCount=0)
-    logger_info.addHandler(handler_info)
-
-    logger_debug = logging.getLogger('debug_logger')
-    logger_debug.setLevel(logging.INFO)
-    handler_debug = RotatingFileHandler('DEBUG.log', mode='w', backupCount=0)
-    logger_debug.addHandler(handler_debug)
-
-    logger_attack = logging.getLogger('results_logger')
-    logger_attack.setLevel(logging.INFO)
-    handler_attack = RotatingFileHandler('ATTACK.log', mode='w', backupCount=0)
-    logger_attack.addHandler(handler_attack)
-
-    logger_debug.info("******   Analysis #5: IP-HTTP_VERB Input   ******")
+    log.debug("******   Analysis #5: IP-HTTP_VERB Input   ******")
 
     per_verb = dict()  # IP-http-verb
     hostlist = dict()
@@ -65,7 +51,7 @@ def analyze(data):
 
         popular_words = sorted(word_counter, key=word_counter.get, reverse=True)
         popular_verb = popular_words[0]
-        logger_debug.info(x + ": " + popular_verb)
+        log.debug(x + ": " + popular_verb)
 
         y = x.split(".")
         ip = ""
@@ -88,7 +74,7 @@ def analyze(data):
     # print "Analysis #5: IP-Verb Input data to k-prototypes:"
     # print "Printing IP-VERB:"
 
-    logger_attack.info("******   Analysis #5: IP-VERB(http) Input data to k-prototypes:     ********")
+    log.info("******   Analysis #5: IP-VERB(http) Input data to k-prototypes:     ********")
 
     ####do k-proto analysis:
     ##For k-proto analysis:
@@ -115,45 +101,44 @@ def analyze(data):
 
     max_index = max(num_clust, key=num_clust.get)
 
-    logger_attack.info("Cluster no. " + str(min_index) + " has the least elements: " + str(num_clust[min_index]))
-    logger_attack.info("Check INFO.log to view its contents!")
+    log.info("Cluster no. " + str(min_index) + " has the least elements: " + str(num_clust[min_index]))
+    log.info("Check INFO.log to view its contents!")
 
     content_arr = clust_content[min_index]
 
-    logger_info.info("****  Contents of the cluster with minimum number of elements!  *****")
+    log.info("****  Contents of the cluster with minimum number of elements!  *****")
 
     # Prints contents of min cluster
     input_index = 0
     for y in X:
         if input_index in content_arr:
-            logger_info.info(y)
+            log.info(y)
         input_index += 1
 
-    logger_attack.info("Cluster no. " + str(max_index) + " has the maximum elements: " + str(num_clust[max_index]))
-    logger_attack.info("Check INFO.log to view its contents!")
-    logger_attack.info("Check DEBUG.log to view contents of all clusters along with the main input X!")
+    log.info("Cluster no. " + str(max_index) + " has the maximum elements: " + str(num_clust[max_index]))
+    log.info("Check INFO.log to view its contents!")
+    log.info("Check DEBUG.log to view contents of all clusters along with the main input X!")
 
     content_arr = clust_content[max_index]
 
-    logger_info.info("***** Contents of the cluster with maximum number of elements! *****")
+    log.info("***** Contents of the cluster with maximum number of elements! *****")
     # Prints contents of max cluster
     input_index = 0
     for y in X:
         if input_index in content_arr:
-            logger_info.info(y)
+            log.info(y)
         input_index += 1
 
-    logger_debug.info("***** Contents of all clusters! *****")
+    log.debug("***** Contents of all clusters! *****")
     # Prints contents of all clusters
-
 
     for k in clust_content:
         content_arr = clust_content[k]
-        logger_debug.info("***** Contents of cluster #" + str(k) + ":  *****")
-        logger_debug.info("***** This cluster has " + str(num_clust[k]) + " elements!  *****")
+        log.debug("***** Contents of cluster #" + str(k) + ":  *****")
+        log.debug("***** This cluster has " + str(num_clust[k]) + " elements!  *****")
 
         input_index = 0
         for y in X:
             if input_index in content_arr:
-                logger_debug.info(y)
+                log.debug(y)
             input_index += 1

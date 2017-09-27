@@ -1,6 +1,9 @@
 import fileinput
+import logging
 import os
 import re
+
+log = logging.getLogger(__name__)
 
 try:
     import simplejson as json
@@ -17,7 +20,7 @@ def readfile(file):
 
     # just a guestimate. I believe a single entry contains atleast 150 chars
     if statinfo.st_size < 150:
-        print "Not a valid access_log file. It does not have enough data"
+        log.info("Not a valid access_log file. It does not have enough data")
     else:
         for line in fileinput.input(file):
             index = index + 1

@@ -1,29 +1,15 @@
 import json
 import logging
 import urlparse
-from logging.handlers import RotatingFileHandler
+
+log = logging.getLogger(__name__)
 
 
 def analyze(data):
     # Convert this to python data for us to be able to run ML algorithms
     json_to_python = json.loads(data)
 
-    logger_info = logging.getLogger('info_logger')
-    logger_info.setLevel(logging.INFO)
-    handler_info = RotatingFileHandler('INFO.log', mode='w', backupCount=0)
-    logger_info.addHandler(handler_info)
-
-    logger_debug = logging.getLogger('debug_logger')
-    logger_debug.setLevel(logging.INFO)
-    handler_debug = RotatingFileHandler('DEBUG.log', mode='w', backupCount=0)
-    logger_debug.addHandler(handler_debug)
-
-    logger_attack = logging.getLogger('results_logger')
-    logger_attack.setLevel(logging.INFO)
-    handler_attack = RotatingFileHandler('ATTACK.log', mode='w', backupCount=0)
-    logger_attack.addHandler(handler_attack)
-
-    logger_info.info(
+    log.info(
         "##******** Analysis #11:###Printing INPUT for url and hosts with only one host requesting this url #####")
 
     per_host_req_url = dict()
@@ -45,7 +31,7 @@ def analyze(data):
         r = url.split('?')
         r[0]  ####this is the url before query parameters
 
-        logger_info.info(str(y['HOST']) + ": " + r[0])
+        log.info(str(y['HOST']) + ": " + r[0])
         if r[0] in per_host_req_url:
             per_host_req_url[r[0]].append(y['HOST'])
         else:
@@ -53,7 +39,7 @@ def analyze(data):
 
     ###Analysis 11: List of urls with only one host requesting it
 
-    logger_attack.info("##******** Analysis #11:###Printing url and hosts with only one host requesting this url #####")
+    log.info("##******** Analysis #11:###Printing url and hosts with only one host requesting this url #####")
 
     host_unique_url_count = dict()
 
@@ -65,4 +51,4 @@ def analyze(data):
                 else:
                     host_unique_url_count[y] = 1
 
-                logger_attack.info("URL :    " + x + "\nis hit only by IP: " + y)
+                log.info("URL :    " + x + "\nis hit only by IP: " + y)
