@@ -26,10 +26,17 @@ def main():
     parser = argparse.ArgumentParser(description='Get more from your logs.')
 
     parser.add_argument('logfile', help='the web application log to parse')
-    parser.add_argument('-c', '--config', nargs=1, metavar='', help='a configuration file')
-    parser.add_argument('-d', '--debug', action='store_true', help='output debug information')
-    parser.add_argument('-v', '--verbose', action='store_true', help='output additional information')
-    parser.add_argument('-a', '--all', action='store_true', help='run all analyzers')
+    parser.add_argument(
+        '-c', '--config', nargs=1, metavar='', help='a configuration file')
+    parser.add_argument(
+        '-d', '--debug', action='store_true', help='output debug information')
+    parser.add_argument(
+        '-v',
+        '--verbose',
+        action='store_true',
+        help='output additional information')
+    parser.add_argument(
+        '-a', '--all', action='store_true', help='run all analyzers')
 
     # add a cli switch for each analyzer
     for analyzer in available_analyzers:
