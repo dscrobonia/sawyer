@@ -14,7 +14,8 @@ def analyze(data):
 
     hostlist = dict()
     log.info(
-        "##******** Analysis #10: Printing input and info of parameters requested by host for a url. Key of type- host: url and value is parameter count *******######:")
+        "##******** Analysis #10: Printing input and info of parameters requested by host for a url. Key of type- host: url and value is parameter count *******######:"
+    )
 
     # Data pre-processing here:
     for i in json_to_python:
@@ -35,25 +36,32 @@ def analyze(data):
         key_for_par_count = y['HOST'] + " : " + r[0]
         # key_for_par_count = y['TIME'] + y['HOST'] + " : " + r[0]
 
-        log.info("**** Printing information for " + key_for_par_count + " *****")
+        log.info("**** Printing information for " + key_for_par_count +
+                 " *****")
         for x, y in params:
             log.info("Parameter = " + str(x) + " Value = " + str(y))
             len(y)  ###########length of value of parameter
             if len(y) > 50:
-                log.info("ALERT!!!!! \nHuge length (" + str(len(y)) + ") of request parameter :" + str(
-                    x) + " with value \n" + y + "\n by host:url combination " + key_for_par_count)
+                log.info("ALERT!!!!! \nHuge length (" + str(len(y)) +
+                         ") of request parameter :" + str(x) + " with value \n"
+                         + y + "\n by host:url combination " +
+                         key_for_par_count)
 
             count = count + 1
             countnonoverlappingrematches('=&', url)  ## missing arguments
 
             if countnonoverlappingrematches('=&', url) > 3:
-                log.info("More than 3 missing parameters in the request! found by =& logic")
+                log.info(
+                    "More than 3 missing parameters in the request! found by =& logic"
+                )
 
             param_duplicates = dict()
             if x in param_duplicates:
                 param_duplicates[x] += 1
                 log.info(
-                    "Duplicate parameter " + x + " by " + key_for_par_count + " in same request found!! Weird behaviour!!")  ###spots duplicates
+                    "Duplicate parameter " + x + " by " + key_for_par_count +
+                    " in same request found!! Weird behaviour!!"
+                )  ###spots duplicates
             else:
                 param_duplicates[x] = 1
 
@@ -66,19 +74,21 @@ def analyze(data):
 
     ###Analysis 10: List of number of parameters requested for (host+url) key:
     log.info(
-        "##******** Analysis #10: Printing count of parameters requested by host for a url. Key of type- host: url and value is parameter count *******######:")
+        "##******** Analysis #10: Printing count of parameters requested by host for a url. Key of type- host: url and value is parameter count *******######:"
+    )
     log.info(
-        "##******** Analysis #10: Printing count of parameters requested by host for a url. Key of type- host: url and value is parameter count *******######:")
+        "##******** Analysis #10: Printing count of parameters requested by host for a url. Key of type- host: url and value is parameter count *******######:"
+    )
 
     for x in host_url_param_count:
         for y in host_url_param_count[x]:
             if int(y) > 3:
-                log.info(
-                    "Huge count of parameters requested: " + str(x) + "requests : " + str(y) + " parameters")
+                log.info("Huge count of parameters requested: " + str(x) +
+                         "requests : " + str(y) + " parameters")
 
             else:
-                log.info(
-                    "Huge count of parameters requested: " + str(x) + "requests : " + str(y) + " parameters")
+                log.info("Huge count of parameters requested: " + str(x) +
+                         "requests : " + str(y) + " parameters")
 
 
 def countnonoverlappingrematches(pattern, thestring):

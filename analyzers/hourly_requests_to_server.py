@@ -13,7 +13,8 @@ def analyze(data):
 
     hostlist = dict()
 
-    net_req_hr_key = []  # keeps track of keys of type hr+date+month. for finding requests received per hour
+    net_req_hr_key = [
+    ]  # keeps track of keys of type hr+date+month. for finding requests received per hour
 
     # Data pre-processing here:
     for i in json_to_python:
@@ -35,7 +36,6 @@ def analyze(data):
                 net_req_hr[net_key] = 1
                 net_req_hr_key.append(net_key)
 
-
         else:
             time = y['TIME']
             hr = time.split(":")
@@ -52,9 +52,11 @@ def analyze(data):
     ###Analysis 8: Per-hour requests for a particular hour and day: key of type: hr+date
 
     log.info(
-        "Analysis #8: \n####****** Printing net requests per hour stats at the Server with Key: Hour/DATE Value: Number of requests ******###########")
+        "Analysis #8: \n####****** Printing net requests per hour stats at the Server with Key: Hour/DATE Value: Number of requests ******###########"
+    )
     log.info(
-        "** Note that this shows data if number of requests exceed 500. For detailed info, check INFO.log")
+        "** Note that this shows data if number of requests exceed 500. For detailed info, check INFO.log"
+    )
     for x in net_req_hr_key:
         if net_req_hr[x] > 500:
             log.info(x + " received :" + str(net_req_hr[x]) + " requests!!")

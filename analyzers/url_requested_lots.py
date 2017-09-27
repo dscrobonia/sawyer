@@ -37,7 +37,8 @@ def analyze(data):
 
     ###Analysis #12: List of number of unique urls hit by client ips
     log.info(
-        "##******** Analysis #12:#####  Printing number of unique urls hit by client ips:   ###############")
+        "##******** Analysis #12:#####  Printing number of unique urls hit by client ips:   ###############"
+    )
 
     host_unique_url_count = dict()
 
@@ -52,7 +53,8 @@ def analyze(data):
                 log.info(x + " is hit only by user: " + y)
 
     log.info(
-        "##******** Analysis #12:#####  Printing number of unique urls hit by client ips:   ###############")
+        "##******** Analysis #12:#####  Printing number of unique urls hit by client ips:   ###############"
+    )
 
     for x in host_unique_url_count:
         log.info(x + ":    " + str(host_unique_url_count[x]))

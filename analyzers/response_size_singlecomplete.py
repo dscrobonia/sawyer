@@ -31,7 +31,9 @@ def analyze(data):
 
     ##Data pre-processing ends here
 
-    log.debug("*** Printing Input to analysis - 4 (1): K-means on IP and average response size ****")
+    log.debug(
+        "*** Printing Input to analysis - 4 (1): K-means on IP and average response size ****"
+    )
 
     #####*****SIZE******####
     #### Analysis #4 (1): IP address - Size of response received feature
@@ -60,15 +62,18 @@ def analyze(data):
         X = np.vstack([X, le])
 
     log.info(
-        "********    Printing Analysis #4: IP-Address and Response Size received: Single and Complete Hierarchical Clustering  ********\n Check test-single-complete.png for more info!")
+        "********    Printing Analysis #4: IP-Address and Response Size received: Single and Complete Hierarchical Clustering  ********\n Check test-single-complete.png for more info!"
+    )
     # print kmeans.labels_
-
 
     ### Analysis 4 (7): ######SINGLE AND COMPLETE HAC*****#########
     # cityblock, euclidean and chebychev: metrics for distance
     fig, axes23 = plt.subplots(2, 3)
 
-    for method, axes in zip(['single', 'complete', ], axes23):
+    for method, axes in zip([
+            'single',
+            'complete',
+    ], axes23):
         z = hac.linkage(X, method=method)
 
         # Plotting
@@ -80,22 +85,30 @@ def analyze(data):
         knee[knee.argmax()] = 0
         num_clust2 = knee.argmax() + 2
 
-        axes[0].text(num_clust1, z[::-1, 2][num_clust1 - 1], 'possible\n<- knee point')
+        axes[0].text(num_clust1, z[::-1, 2][num_clust1 - 1],
+                     'possible\n<- knee point')
 
         part1 = hac.fcluster(z, num_clust1, 'maxclust')
         part2 = hac.fcluster(z, num_clust2, 'maxclust')
 
-        clr = ['#2200CC', '#D9007E', '#FF6600', '#FFCC00', '#ACE600', '#0099CC',
-               '#8900CC', '#FF0000', '#FF9900', '#FFFF00', '#00CC01', '#0055CC']
+        clr = [
+            '#2200CC', '#D9007E', '#FF6600', '#FFCC00', '#ACE600', '#0099CC',
+            '#8900CC', '#FF0000', '#FF9900', '#FFFF00', '#00CC01', '#0055CC'
+        ]
 
         for part, ax in zip([part1, part2], axes[1:]):
             for cluster in set(part):
-                ax.scatter(X[part == cluster, 0], X[part == cluster, 1],
-                           color=clr[cluster % 10])
+                ax.scatter(
+                    X[part == cluster, 0],
+                    X[part == cluster, 1],
+                    color=clr[cluster % 10])
 
         m = '\n(method: {})'.format(method)
-        plt.setp(axes[0], title='Screeplot{}'.format(m), xlabel='partition',
-                 ylabel='{}\ncluster distance'.format(m))
+        plt.setp(
+            axes[0],
+            title='Screeplot{}'.format(m),
+            xlabel='partition',
+            ylabel='{}\ncluster distance'.format(m))
         plt.setp(axes[1], title='{} Clusters'.format(num_clust1))
         plt.setp(axes[2], title='{} Clusters'.format(num_clust2))
 

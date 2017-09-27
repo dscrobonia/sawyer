@@ -33,7 +33,9 @@ def analyze(data):
 
     ##Data pre-processing ends here
 
-    log.debug("*** Printing Input to analysis - 4 (1): K-means on IP and average response size ****")
+    log.debug(
+        "*** Printing Input to analysis - 4 (1): K-means on IP and average response size ****"
+    )
 
     #####*****SIZE******####
     #### Analysis #4 (1): IP address - Size of response received feature
@@ -62,11 +64,13 @@ def analyze(data):
         X = np.vstack([X, le])
 
     log.info(
-        "********    Printing Analysis #4: IP-Address and Response Size received: Elliptic Envelope   ********")
-    log.info("********    Check the image elliptic.png saved in the working directory   ********")
+        "********    Printing Analysis #4: IP-Address and Response Size received: Elliptic Envelope   ********"
+    )
+    log.info(
+        "********    Check the image elliptic.png saved in the working directory   ********"
+    )
 
     # print kmeans.labels_
-
 
     ####################################
     ## Analysis 4 (4): Outlier-unsupervised-elliptic (Currently not working our data)#####
@@ -74,11 +78,13 @@ def analyze(data):
 
     # Define "classifiers" to be used
     classifiers = {
-        "Empirical Covariance": EllipticEnvelope(support_fraction=1.,
-                                                 contamination=0.261),
+        "Empirical Covariance":
+        EllipticEnvelope(support_fraction=1., contamination=0.261),
         "Robust Covariance (Minimum Covariance Determinant)":
-            EllipticEnvelope(contamination=0.261),
-        "OCSVM": OneClassSVM(nu=0.261, gamma=0.05)}
+        EllipticEnvelope(contamination=0.261),
+        "OCSVM":
+        OneClassSVM(nu=0.261, gamma=0.05)
+    }
     colors = ['m', 'g', 'b']
     legend1 = {}
     legend2 = {}
@@ -99,18 +105,20 @@ def analyze(data):
 
     # Plot the results (= shape of the data points cloud)
     plt.figure(1)  # two clusters
-    plt.title("Outlier detection on a real data set: IP-response size received:")
+    plt.title(
+        "Outlier detection on a real data set: IP-response size received:")
     plt.scatter(X1[:, 0], X1[:, 1], color='black')
     bbox_args = dict(boxstyle="round", fc="0.8")
 
     plt.xlim((xx1.min(), xx1.max()))
     plt.ylim((yy1.min(), yy1.max()))
-    plt.legend((legend1_values_list[0].collections[0],
-                legend1_values_list[1].collections[0],
-                legend1_values_list[2].collections[0]),
-               (legend1_keys_list[0], legend1_keys_list[1], legend1_keys_list[2]),
-               loc="upper center",
-               prop=matplotlib.font_manager.FontProperties(size=12))
+    plt.legend(
+        (legend1_values_list[0].collections[0],
+         legend1_values_list[1].collections[0],
+         legend1_values_list[2].collections[0]),
+        (legend1_keys_list[0], legend1_keys_list[1], legend1_keys_list[2]),
+        loc="upper center",
+        prop=matplotlib.font_manager.FontProperties(size=12))
     plt.ylabel("Response size received")
     plt.xlabel("Host-IP address")
 

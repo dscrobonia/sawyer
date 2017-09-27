@@ -29,7 +29,9 @@ def analyze(data):
 
             per_size[y['HOST']] = [int(y['SIZE'])]
 
-    log.debug("*** Printing Input to analysis - 4 (1): K-means on IP and average response size ****")
+    log.debug(
+        "*** Printing Input to analysis - 4 (1): K-means on IP and average response size ****"
+    )
 
     #####*****SIZE******####
     #### Analysis #4 (1): IP address - Size of response received feature
@@ -58,15 +60,14 @@ def analyze(data):
         X = np.vstack([X, le])
 
     log.info(
-        "********    Printing Analysis #4: IP-Address and Response Size received: Hierarchical clustering dendograms  ********")
+        "********    Printing Analysis #4: IP-Address and Response Size received: Hierarchical clustering dendograms  ********"
+    )
 
     ###########################
     ### Analysis 4 (10): ###### Ward linkage dendogram: *****#########
 
     pl.scatter(X[:, 0], X[:, 1])
     # plt.show()
-
-
 
     Z = linkage(X, 'ward')
 
@@ -83,7 +84,9 @@ def analyze(data):
     pl.savefig('test-ward-linkage.png')
     ##pl.show()
 
-    log.info("Please check test-ward-linkage.png to view dendogram for ward linkage.")
+    log.info(
+        "Please check test-ward-linkage.png to view dendogram for ward linkage."
+    )
 
     ### Analysis 4 (11): ###### Single linkage dendogram: *****#########
 
@@ -102,7 +105,9 @@ def analyze(data):
     ##pl.show()
     pl.savefig('test-single-linkage.png')
 
-    log.info("Please check test-single-linkage.png to view dendogram for single linkage.")
+    log.info(
+        "Please check test-single-linkage.png to view dendogram for single linkage."
+    )
 
     ### Analysis 4 (12): ###### Complete linkage dendogram: *****#########
     Z = linkage(X, 'complete')
@@ -121,7 +126,9 @@ def analyze(data):
 
     pl.savefig('test-complete-linkage.png')
 
-    log.info("Please check test-complete-linkage.png to view dendogram for complete linkage.")
+    log.info(
+        "Please check test-complete-linkage.png to view dendogram for complete linkage."
+    )
 
     ### Analysis 4 (13): ###### Median linkage dendogram: *****#########
     Z = linkage(X, 'median')
@@ -140,11 +147,11 @@ def analyze(data):
 
     pl.savefig('test-median-linkage.png')
 
-    log.info("Please check test-median-linkage.png to view dendogram for median linkage.")
+    log.info(
+        "Please check test-median-linkage.png to view dendogram for median linkage."
+    )
 
     ### Analysis 4 (14): ###### Centroid linkage dendogram: *****#########
-
-
 
     Z = linkage(X, 'centroid')
 
@@ -161,7 +168,9 @@ def analyze(data):
     ##pl.show()
     pl.savefig('test-centroid-linkage.png')
 
-    log.info("Please check test-centroid-linkage.png to view dendogram for centroid linkage.")
+    log.info(
+        "Please check test-centroid-linkage.png to view dendogram for centroid linkage."
+    )
 
 
 def mean(numbers):

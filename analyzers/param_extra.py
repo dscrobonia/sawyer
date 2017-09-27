@@ -32,7 +32,6 @@ def analyze(data):
         key_for_par_count = y['HOST'] + " : " + r[0]
         # key_for_par_count = y['TIME'] + y['HOST'] + " : " + r[0]
 
-
         for x, y in params:
 
             ##Important functionality
@@ -50,8 +49,11 @@ def analyze(data):
                 rep_host_url_paramnamecnt[key_for_par_count] = random
 
     log.info(
-        "##Analysis #13:#######**** Printing count and name of parameters for host+url combination: Find missing and extra params with this: ***######## ")
-    log.info("Analysis #13:#######**** Printing missing/extra parameters *******#########")
+        "##Analysis #13:#######**** Printing count and name of parameters for host+url combination: Find missing and extra params with this: ***######## "
+    )
+    log.info(
+        "Analysis #13:#######**** Printing missing/extra parameters *******#########"
+    )
 
     for y in rep_host_url_paramnamecnt:
         log.info(y + "--")
@@ -65,6 +67,7 @@ def analyze(data):
                 verify = tem[random]
             if flag > 1:
                 if verify > tem[random]:
-                    log.info("Missing parameter: " + random + " for key : " + y)
+                    log.info("Missing parameter: " + random + " for key : " +
+                             y)
                 if verify < tem[random]:
                     log.info("Extra parameter: " + random + " for key : " + y)

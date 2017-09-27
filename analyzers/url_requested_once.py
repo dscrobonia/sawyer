@@ -10,7 +10,8 @@ def analyze(data):
     json_to_python = json.loads(data)
 
     log.info(
-        "##******** Analysis #11:###Printing INPUT for url and hosts with only one host requesting this url #####")
+        "##******** Analysis #11:###Printing INPUT for url and hosts with only one host requesting this url #####"
+    )
 
     per_host_req_url = dict()
     hostlist = dict()
@@ -39,7 +40,9 @@ def analyze(data):
 
     ###Analysis 11: List of urls with only one host requesting it
 
-    log.info("##******** Analysis #11:###Printing url and hosts with only one host requesting this url #####")
+    log.info(
+        "##******** Analysis #11:###Printing url and hosts with only one host requesting this url #####"
+    )
 
     host_unique_url_count = dict()
 

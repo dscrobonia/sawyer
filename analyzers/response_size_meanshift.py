@@ -33,7 +33,9 @@ def analyze(data):
 
     ##Data pre-processing ends here
 
-    log.debug("*** Printing Input to analysis - 4 (1): K-means on IP and average response size ****")
+    log.debug(
+        "*** Printing Input to analysis - 4 (1): K-means on IP and average response size ****"
+    )
 
     #####*****SIZE******####
     #### Analysis #4 (1): IP address - Size of response received feature
@@ -62,10 +64,10 @@ def analyze(data):
         X = np.vstack([X, le])
 
     log.info(
-        "********    Printing Analysis #4: IP-Address and Response Size received: MEAN SHIFT algorithm   ********")
+        "********    Printing Analysis #4: IP-Address and Response Size received: MEAN SHIFT algorithm   ********"
+    )
     log.info("Please check the graph at test-mean-shift.png for more info!")
     # print kmeans.labels_
-
 
     ## Analysis 4 (6): MEAN SHIFT algorithm: (IP-response size) #########
     # #############################################################################
@@ -102,8 +104,13 @@ def analyze(data):
         my_members = labels == k
         cluster_center = cluster_centers[k]
         plt.plot(X[my_members, 0], X[my_members, 1], col + '.')
-        plt.plot(cluster_center[0], cluster_center[1], 'o', markerfacecolor=col,
-                 markeredgecolor='k', markersize=14)
+        plt.plot(
+            cluster_center[0],
+            cluster_center[1],
+            'o',
+            markerfacecolor=col,
+            markeredgecolor='k',
+            markersize=14)
     plt.title('Estimated number of clusters: %d' % n_clusters_)
     ##plt.show()
     plt.savefig('test-mean-shift.png')

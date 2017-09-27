@@ -41,7 +41,9 @@ def analyze(data):
                 per_200_300[y['HOST']] = 1
 
     ## Analysis 2: (Non-ML): Ratio and number of successful and failure response codes for an IP:
-    log.info("Printing Analysis #2: Number of 2XX_3XX and 4XX_5XX responses per host IP:")
+    log.info(
+        "Printing Analysis #2: Number of 2XX_3XX and 4XX_5XX responses per host IP:"
+    )
     for x in hostlist:
         log.info(x + ":")
         if x in per_200_300:
@@ -49,16 +51,20 @@ def analyze(data):
         if x in per_400_500:
             log.info("400_500 total: " + str(per_400_500[x]))
         if x in per_400_500 and x in per_200_300:
-            log.info("ratio: " + str(float(per_200_300[x]) / float(per_400_500[x])))
+            log.info("ratio: " + str(
+                float(per_200_300[x]) / float(per_400_500[x])))
             if float(per_200_300[x]) / float(per_400_500[x]) < 0.0099:
-                log.info("May be an attack by " + x + " as it has " + str(
-                    per_400_500[x]) + " failed attempts but only " + str(per_200_300[x]) + " successful attempts!")
+                log.info("May be an attack by " + x + " as it has " +
+                         str(per_400_500[x]) + " failed attempts but only " +
+                         str(per_200_300[x]) + " successful attempts!")
 
         if x in per_400_500 and not x in per_200_300:
-            log.debug(x + " has only failed attempts!!   :" + str(per_400_500[x]))
+            log.debug(x + " has only failed attempts!!   :" +
+                      str(per_400_500[x]))
             if per_400_500[x] > 50:
-                log.info(
-                    "May be an attack by " + x + " as it has " + str(per_400_500[x]) + " failed attempts.")
+                log.info("May be an attack by " + x + " as it has " +
+                         str(per_400_500[x]) + " failed attempts.")
 
         if x in per_200_300 and not x in per_400_500:
-            log.debug(x + " has all successful attempts!!    :" + str(per_200_300[x]))
+            log.debug(x + " has all successful attempts!!    :" +
+                      str(per_200_300[x]))

@@ -62,11 +62,14 @@ def analyze(data):
     ##Every entry in the list corresponds to number of parameters requested for 1 url
 
     log.info(
-        "Analysis #9:\n####****** Printing List of number of parameters requested by a Host-IP on a given day for urls.  *****#####")
+        "Analysis #9:\n####****** Printing List of number of parameters requested by a Host-IP on a given day for urls.  *****#####"
+    )
     log.info(
-        "Analysis #9:\n####****** Printing List of number of parameters requested by a Host-IP on a given day for urls *****####")
+        "Analysis #9:\n####****** Printing List of number of parameters requested by a Host-IP on a given day for urls *****####"
+    )
     log.info(
-        "Every entry in the list corresponds to number of parameters requested for 1 url, if the count exceeds 5. \nCheck INFO.log for entries with less number of parameter requests")
+        "Every entry in the list corresponds to number of parameters requested for 1 url, if the count exceeds 5. \nCheck INFO.log for entries with less number of parameter requests"
+    )
     for x in req_para_key:
         for y in req_parameters[x]:
             if y > 5:

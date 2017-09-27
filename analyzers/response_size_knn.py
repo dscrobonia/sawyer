@@ -31,7 +31,9 @@ def analyze(data):
 
     ##Data pre-processing ends here
 
-    log.debug("*** Printing Input to analysis - 4 (1): K-means on IP and average response size ****")
+    log.debug(
+        "*** Printing Input to analysis - 4 (1): K-means on IP and average response size ****"
+    )
 
     #####*****SIZE******####
     #### Analysis #4 (1): IP address - Size of response received feature
@@ -60,7 +62,8 @@ def analyze(data):
         X = np.vstack([X, le])
 
     log.info(
-        "********    Printing Analysis #4 (2): IP-Address and Response Size received:  K-Nearest Neighbours ********")
+        "********    Printing Analysis #4 (2): IP-Address and Response Size received:  K-Nearest Neighbours ********"
+    )
     # print kmeans.labels_
 
     #################################################

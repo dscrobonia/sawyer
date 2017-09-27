@@ -39,7 +39,9 @@ def analyze(data):
             per_time[y['HOST']] = [hr[1]]
 
     ## Analysis 3: (ML): Cluster by Host IP - Hour of the day for most frequent usage
-    log.debug("***   Printing IP address (transformed) and most frequent hour usage pairs: *****")
+    log.debug(
+        "***   Printing IP address (transformed) and most frequent hour usage pairs: *****"
+    )
 
     ###Extract most frequent hour of the day
     X = np.array([[0.00, 0]])
@@ -53,7 +55,8 @@ def analyze(data):
             else:
                 word_counter[word] = 1
 
-        popular_words = sorted(word_counter, key=word_counter.get, reverse=True)
+        popular_words = sorted(
+            word_counter, key=word_counter.get, reverse=True)
         max_time = popular_words[0]
         log.debug(x + ": " + max_time)
         y = x.split(".")
@@ -76,9 +79,10 @@ def analyze(data):
 
     # print X
 
-
     kmeans = KMeans(n_clusters=24, random_state=0).fit(X)
-    log.info("Printing Analysis #3: Host IP address - Most frequent hour of the day:")
+    log.info(
+        "Printing Analysis #3: Host IP address - Most frequent hour of the day:"
+    )
     # print kmeans.labels_
     num_clust = dict()
     clust_content = dict()
@@ -97,12 +101,15 @@ def analyze(data):
 
     max_index = max(num_clust, key=num_clust.get)
 
-    log.info("Cluster no. " + str(min_index) + " has the least elements: " + str(num_clust[min_index]))
+    log.info("Cluster no. " + str(min_index) + " has the least elements: " +
+             str(num_clust[min_index]))
     log.info("Check INFO.log to view its contents!")
 
     content_arr = clust_content[min_index]
 
-    log.info("****  Contents of the cluster with minimum number of elements!  *****")
+    log.info(
+        "****  Contents of the cluster with minimum number of elements!  *****"
+    )
 
     # Prints contents of min cluster
     input_index = 0
@@ -111,13 +118,17 @@ def analyze(data):
             log.info(y)
         input_index += 1
 
-    log.info("Cluster no. " + str(max_index) + " has the maximum elements: " + str(num_clust[max_index]))
+    log.info("Cluster no. " + str(max_index) + " has the maximum elements: " +
+             str(num_clust[max_index]))
     log.info("Check INFO.log to view its contents!")
-    log.info("Check DEBUG.log to view contents of all clusters along with the main input X!")
+    log.info(
+        "Check DEBUG.log to view contents of all clusters along with the main input X!"
+    )
 
     content_arr = clust_content[max_index]
 
-    log.info("***** Contents of the cluster with maximum number of elements! *****")
+    log.info(
+        "***** Contents of the cluster with maximum number of elements! *****")
     # Prints contents of max cluster
     input_index = 0
     for y in X:
@@ -128,11 +139,11 @@ def analyze(data):
         log.debug("***** Contents of all clusters! *****")
     # Prints contents of all clusters
 
-
     for k in clust_content:
         content_arr = clust_content[k]
         log.debug("***** Contents of cluster #" + str(k) + ":  *****")
-        log.debug("***** This cluster has " + str(num_clust[k]) + " elements!  *****")
+        log.debug("***** This cluster has " + str(num_clust[k]) +
+                  " elements!  *****")
 
         input_index = 0
         for y in X:

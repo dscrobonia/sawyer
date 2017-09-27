@@ -29,7 +29,9 @@ def analyze(data):
 
             per_size[y['HOST']] = [int(y['SIZE'])]
 
-    log.debug("*** Printing Input to analysis - 4 (1): K-means on IP and average response size ****")
+    log.debug(
+        "*** Printing Input to analysis - 4 (1): K-means on IP and average response size ****"
+    )
 
     #####*****SIZE******####
     #### Analysis #4 (1): IP address - Size of response received feature
@@ -57,13 +59,15 @@ def analyze(data):
         X = np.vstack([X, le])
 
     log.info(
-        "********   Analysis #4 (3) :  IP-Address and Response Size received: LocalOutlierFactor  ********")
+        "********   Analysis #4 (3) :  IP-Address and Response Size received: LocalOutlierFactor  ********"
+    )
     # print kmeans.labels_
     log.info(
-        "******** Please check the image test-save-outlier-LOF.png saved in your working directory for more info. ********")
+        "******** Please check the image test-save-outlier-LOF.png saved in your working directory for more info. ********"
+    )
 
     ######################################################
-    ##Analysis : 4 (3): Outlier detection: 
+    ##Analysis : 4 (3): Outlier detection:
     np.random.seed(42)
 
     # fit the model
@@ -80,17 +84,14 @@ def analyze(data):
     plt.title("Local Outlier Factor (LOF)")
     plt.contourf(xx, yy, Z, cmap=plt.cm.Blues_r)
 
-    a = plt.scatter(X[:200, 0], X[:200, 1], c='white',
-                    edgecolor='k', s=20)
-    b = plt.scatter(X[200:, 0], X[200:, 1], c='red',
-                    edgecolor='k', s=20)
+    a = plt.scatter(X[:200, 0], X[:200, 1], c='white', edgecolor='k', s=20)
+    b = plt.scatter(X[200:, 0], X[200:, 1], c='red', edgecolor='k', s=20)
     plt.axis('tight')
     # plt.xlim((-5, 5))
     # plt.ylim((-5, 5))
-    plt.legend([a, b],
-               ["normal observations",
-                "abnormal observations"],
-               loc="upper left")
+    plt.legend(
+        [a, b], ["normal observations", "abnormal observations"],
+        loc="upper left")
     ##plt.show()
     plt.savefig('test-save-outlier-LOF.png')
 

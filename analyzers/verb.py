@@ -49,7 +49,8 @@ def analyze(data):
             else:
                 word_counter[word] = 1
 
-        popular_words = sorted(word_counter, key=word_counter.get, reverse=True)
+        popular_words = sorted(
+            word_counter, key=word_counter.get, reverse=True)
         popular_verb = popular_words[0]
         log.debug(x + ": " + popular_verb)
 
@@ -74,7 +75,9 @@ def analyze(data):
     # print "Analysis #5: IP-Verb Input data to k-prototypes:"
     # print "Printing IP-VERB:"
 
-    log.info("******   Analysis #5: IP-VERB(http) Input data to k-prototypes:     ********")
+    log.info(
+        "******   Analysis #5: IP-VERB(http) Input data to k-prototypes:     ********"
+    )
 
     ####do k-proto analysis:
     ##For k-proto analysis:
@@ -101,12 +104,15 @@ def analyze(data):
 
     max_index = max(num_clust, key=num_clust.get)
 
-    log.info("Cluster no. " + str(min_index) + " has the least elements: " + str(num_clust[min_index]))
+    log.info("Cluster no. " + str(min_index) + " has the least elements: " +
+             str(num_clust[min_index]))
     log.info("Check INFO.log to view its contents!")
 
     content_arr = clust_content[min_index]
 
-    log.info("****  Contents of the cluster with minimum number of elements!  *****")
+    log.info(
+        "****  Contents of the cluster with minimum number of elements!  *****"
+    )
 
     # Prints contents of min cluster
     input_index = 0
@@ -115,13 +121,17 @@ def analyze(data):
             log.info(y)
         input_index += 1
 
-    log.info("Cluster no. " + str(max_index) + " has the maximum elements: " + str(num_clust[max_index]))
+    log.info("Cluster no. " + str(max_index) + " has the maximum elements: " +
+             str(num_clust[max_index]))
     log.info("Check INFO.log to view its contents!")
-    log.info("Check DEBUG.log to view contents of all clusters along with the main input X!")
+    log.info(
+        "Check DEBUG.log to view contents of all clusters along with the main input X!"
+    )
 
     content_arr = clust_content[max_index]
 
-    log.info("***** Contents of the cluster with maximum number of elements! *****")
+    log.info(
+        "***** Contents of the cluster with maximum number of elements! *****")
     # Prints contents of max cluster
     input_index = 0
     for y in X:
@@ -135,7 +145,8 @@ def analyze(data):
     for k in clust_content:
         content_arr = clust_content[k]
         log.debug("***** Contents of cluster #" + str(k) + ":  *****")
-        log.debug("***** This cluster has " + str(num_clust[k]) + " elements!  *****")
+        log.debug("***** This cluster has " + str(num_clust[k]) +
+                  " elements!  *****")
 
         input_index = 0
         for y in X:

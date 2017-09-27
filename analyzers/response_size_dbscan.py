@@ -32,7 +32,9 @@ def analyze(data):
 
             per_size[y['HOST']] = [int(y['SIZE'])]
 
-    log.debug("*** Printing Input to analysis - 4 (1): K-means on IP and average response size ****")
+    log.debug(
+        "*** Printing Input to analysis - 4 (1): K-means on IP and average response size ****"
+    )
 
     #####*****SIZE******####
     #### Analysis #4 (1): IP address - Size of response received feature
@@ -59,7 +61,9 @@ def analyze(data):
 
         X = np.vstack([X, le])
 
-    log.info("********    Printing Analysis #4: IP-Address and Response Size received: DBSCAN  ********")
+    log.info(
+        "********    Printing Analysis #4: IP-Address and Response Size received: DBSCAN  ********"
+    )
     log.info("Check the image test-dbscan.png for more info!")
     # print kmeans.labels_
     X1 = X
@@ -67,8 +71,8 @@ def analyze(data):
     # #############################################################################
     # Generate sample data
     centers = X1
-    X, labels_true = make_blobs(n_samples=750, centers=centers, cluster_std=0.4,
-                                random_state=0)
+    X, labels_true = make_blobs(
+        n_samples=750, centers=centers, cluster_std=0.4, random_state=0)
 
     X = StandardScaler().fit_transform(X)
 
@@ -83,23 +87,26 @@ def analyze(data):
     n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
 
     log.info('Estimated number of clusters: %d' % n_clusters_)
-    log.info("Homogeneity: %0.3f" % metrics.homogeneity_score(labels_true, labels))
-    log.info("Completeness: %0.3f" % metrics.completeness_score(labels_true, labels))
+    log.info(
+        "Homogeneity: %0.3f" % metrics.homogeneity_score(labels_true, labels))
+    log.info("Completeness: %0.3f" % metrics.completeness_score(
+        labels_true, labels))
     log.info("V-measure: %0.3f" % metrics.v_measure_score(labels_true, labels))
-    log.info("Adjusted Rand Index: %0.3f"
-             % metrics.adjusted_rand_score(labels_true, labels))
-    log.info("Adjusted Mutual Information: %0.3f"
-             % metrics.adjusted_mutual_info_score(labels_true, labels))
-    log.info("Silhouette Coefficient: %0.3f"
-             % metrics.silhouette_score(X, labels))
+    log.info("Adjusted Rand Index: %0.3f" % metrics.adjusted_rand_score(
+        labels_true, labels))
+    log.info("Adjusted Mutual Information: %0.3f" %
+             metrics.adjusted_mutual_info_score(labels_true, labels))
+    log.info(
+        "Silhouette Coefficient: %0.3f" % metrics.silhouette_score(X, labels))
 
     # #############################################################################
     # Plot result
 
     # Black removed and is used for noise instead.
     unique_labels = set(labels)
-    colors = [plt.cm.Spectral(each)
-              for each in np.linspace(0, 1, len(unique_labels))]
+    colors = [
+        plt.cm.Spectral(each) for each in np.linspace(0, 1, len(unique_labels))
+    ]
     for k, col in zip(unique_labels, colors):
         if k == -1:
             # Black used for noise.
@@ -108,12 +115,22 @@ def analyze(data):
         class_member_mask = (labels == k)
 
         xy = X[class_member_mask & core_samples_mask]
-        plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
-                 markeredgecolor='k', markersize=14)
+        plt.plot(
+            xy[:, 0],
+            xy[:, 1],
+            'o',
+            markerfacecolor=tuple(col),
+            markeredgecolor='k',
+            markersize=14)
 
         xy = X[class_member_mask & ~core_samples_mask]
-        plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
-                 markeredgecolor='k', markersize=6)
+        plt.plot(
+            xy[:, 0],
+            xy[:, 1],
+            'o',
+            markerfacecolor=tuple(col),
+            markeredgecolor='k',
+            markersize=6)
 
     plt.title('Estimated number of clusters: %d' % n_clusters_)
     ##plt.show()
