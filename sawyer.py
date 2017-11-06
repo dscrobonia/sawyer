@@ -54,7 +54,7 @@ def main():
         stream=sys.stdout, level=os.environ.get("LOGLEVEL", loglevel))
 
     # read log file
-    accesslog = logreader.toJson(args.logfile)
+    accesslog = logreader.parse(args.logfile)
 
     # run analysis for all analyzers
     if args.all:

@@ -15,9 +15,8 @@ def analyze(data):
     hostlist = dict()
 
     # Data pre-processing here:
-    for i in json_to_python:
+    for y in json_to_python:
 
-        y = json_to_python[i]
         hostlist[y['HOST']] = 1
 
         if y['HOST'] in per_size:

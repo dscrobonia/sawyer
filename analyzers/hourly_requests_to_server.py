@@ -17,9 +17,7 @@ def analyze(data):
     ]  # keeps track of keys of type hr+date+month. for finding requests received per hour
 
     # Data pre-processing here:
-    for i in json_to_python:
-
-        y = json_to_python[i]
+    for y in json_to_python:
 
         hostlist[y['HOST']] = 1
 
